@@ -19,7 +19,7 @@ class ProductFactory extends Factory
     {
         return [
             'sku' => fake()->unique()->bothify('SKU-#####-??'),
-            'name' => ucfirst(fake()->words(3, true)),
+            'name' => ucfirst(implode(' ', (array) fake()->words(3))),
             'description' => fake()->sentence(),
             'category_id' => Category::factory(),
             'base_unit_id' => UnitOfMeasure::factory(),
