@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property AdjustmentReason $reason
+ */
 #[Fillable(['product_id', 'bin_id', 'quantity_delta', 'reason', 'note', 'user_id', 'stock_movement_id'])]
 class Adjustment extends Model
 {

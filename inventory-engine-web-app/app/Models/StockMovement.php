@@ -6,7 +6,12 @@ use App\Enums\MovementReason;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property MovementReason $reason
+ * @property Carbon $occurred_at
+ */
 #[Fillable(['product_id', 'warehouse_id', 'bin_id', 'quantity_delta', 'reason', 'user_id', 'occurred_at'])]
 class StockMovement extends Model
 {
