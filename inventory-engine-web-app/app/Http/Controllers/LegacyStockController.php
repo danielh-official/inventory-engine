@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -91,8 +92,7 @@ class LegacyStockController extends Controller
                     'updated_at' => now(),
                 ]);
             } else {
-                DB::table('stock_levels')->where('id', $level->id)->update([
-                    'quantity' => DB::raw('quantity + '.(int) $data['quantity']),
+                DB::table('stock_levels')->where('id', $level->id)->increment('quantity', $data['quantity'], [
                     'updated_at' => now(),
                 ]);
             }
@@ -150,6 +150,9 @@ class LegacyStockController extends Controller
 
         return response()->streamDownload(function () use ($rows) {
             $out = fopen('php://output', 'w');
+            if ($out === false) {
+                throw new RuntimeException('Could not open the output stream for the CSV export.');
+            }
             fputcsv($out, ['sku', 'name', 'bin', 'quantity'], escape: '');
             foreach ($rows as $row) {
                 fputcsv($out, [$row->sku, $row->name, $row->bin, $row->quantity], escape: '');
