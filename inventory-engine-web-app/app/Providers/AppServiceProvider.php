@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Log\Context\Repository as ContextRepository;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +26,19 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureLogContext();
+    }
+
+    /**
+     * Tag every log record with this process's service name. Queued jobs restore the
+     * dispatcher's Context, so the name is re-applied after hydration.
+     */
+    protected function configureLogContext(): void
+    {
+        $service = (string) config('app.service');
+
+        Context::add('service', $service);
+        Context::hydrated(fn (ContextRepository $context) => $context->add('service', $service));
     }
 
     /**

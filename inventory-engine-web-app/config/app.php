@@ -15,6 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // Which process this is (web, worker, scheduler). Added to every log record.
+    'service' => env('APP_SERVICE', 'web'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
