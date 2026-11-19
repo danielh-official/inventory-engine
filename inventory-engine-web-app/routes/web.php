@@ -10,6 +10,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::livewire('products', 'pages::products.index')->name('products.index');
     Route::livewire('products/{product}', 'pages::products.show')->name('products.show');
+    Route::livewire('stock', 'pages::stock.index')->name('stock.index');
 
     Route::prefix('legacy/stock')->name('legacy.stock.')->controller(LegacyStockController::class)->group(function () {
         Route::get('/', 'index')->name('index');

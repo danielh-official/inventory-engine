@@ -18,8 +18,11 @@
                     <flux:sidebar.item icon="cube" :href="route('products.index')" :current="request()->routeIs('products.*')" wire:navigate>
                         {{ __('Products') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="archive-box" :href="route('legacy.stock.index')" :current="request()->routeIs('legacy.stock.*')" wire:navigate>
-                        {{ __('Stock (v0)') }}
+                    <flux:sidebar.item icon="archive-box" :href="route('stock.index')" :current="request()->routeIs('stock.*')" wire:navigate>
+                        {{ __('Stock') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="exclamation-triangle" :href="route('legacy.stock.hazmat')" :current="request()->routeIs('legacy.stock.hazmat')" wire:navigate>
+                        {{ __('Hazmat report') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
