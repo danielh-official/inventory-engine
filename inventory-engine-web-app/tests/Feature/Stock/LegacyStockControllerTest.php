@@ -12,13 +12,13 @@ beforeEach(function () {
 });
 
 test('adjusting creates then increments the stock level and logs each movement', function () {
-    $adjust = fn (int $qty) => $this->post(route('stock.adjust'), [
+    $adjust = fn (int $qty) => $this->post(route('legacy.stock.adjust'), [
         'product_id' => $this->product->id,
         'bin_id' => $this->bin->id,
         'quantity' => $qty,
     ]);
 
-    $adjust(10)->assertRedirect(route('stock.index', ['warehouse' => $this->bin->warehouse_id]));
+    $adjust(10)->assertRedirect(route('legacy.stock.index', ['warehouse' => $this->bin->warehouse_id]));
     $adjust(-3);
 
     expect(DB::table('stock_levels')->where('product_id', $this->product->id)->value('quantity'))->toBe(7)
@@ -27,7 +27,7 @@ test('adjusting creates then increments the stock level and logs each movement',
 });
 
 test('adjusting rejects a zero quantity', function () {
-    $this->post(route('stock.adjust'), [
+    $this->post(route('legacy.stock.adjust'), [
         'product_id' => $this->product->id,
         'bin_id' => $this->bin->id,
         'quantity' => 0,
@@ -39,7 +39,7 @@ test('adjusting rejects a zero quantity', function () {
 test('the stock page lists levels in the chosen warehouse', function () {
     DB::table('stock_levels')->insert(['product_id' => $this->product->id, 'bin_id' => $this->bin->id, 'quantity' => 42]);
 
-    $this->get(route('stock.index', ['warehouse' => $this->bin->warehouse_id]))
+    $this->get(route('legacy.stock.index', ['warehouse' => $this->bin->warehouse_id]))
         ->assertOk()
         ->assertSee($this->product->sku)
         ->assertSee($this->bin->code);
@@ -54,7 +54,7 @@ test('the hazmat report only lists hazmat products on hand', function () {
         ['product_id' => $safe->id, 'bin_id' => $this->bin->id, 'quantity' => 5],
     ]);
 
-    $this->get(route('stock.hazmat'))
+    $this->get(route('legacy.stock.hazmat'))
         ->assertOk()
         ->assertSee($hazmat->sku)
         ->assertDontSee($safe->sku);
@@ -63,7 +63,7 @@ test('the hazmat report only lists hazmat products on hand', function () {
 test('export streams the warehouse stock as CSV', function () {
     DB::table('stock_levels')->insert(['product_id' => $this->product->id, 'bin_id' => $this->bin->id, 'quantity' => 9]);
 
-    $csv = $this->get(route('stock.export', ['warehouse' => $this->bin->warehouse_id]))
+    $csv = $this->get(route('legacy.stock.export', ['warehouse' => $this->bin->warehouse_id]))
         ->assertOk()
         ->streamedContent();
 

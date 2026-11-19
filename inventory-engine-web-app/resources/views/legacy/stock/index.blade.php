@@ -6,7 +6,7 @@
                 <flux:text>{{ __('Total on hand') }}: {{ number_format($total) }}</flux:text>
             </div>
 
-            <form method="GET" action="{{ route('stock.index') }}" class="flex flex-wrap items-end gap-2">
+            <form method="GET" action="{{ route('legacy.stock.index') }}" class="flex flex-wrap items-end gap-2">
                 <select name="warehouse" class="rounded-md border border-zinc-300 px-2 py-1.5 dark:border-zinc-600 dark:bg-zinc-800" onchange="this.form.submit()">
                     @foreach ($warehouses as $warehouse)
                         <option value="{{ $warehouse->id }}" @selected($warehouse->id == $warehouseId)>{{ $warehouse->code }} — {{ $warehouse->name }}</option>
@@ -14,7 +14,7 @@
                 </select>
                 <input type="search" name="q" value="{{ $search }}" placeholder="{{ __('SKU, name or bin') }}" class="rounded-md border border-zinc-300 px-2 py-1.5 dark:border-zinc-600 dark:bg-zinc-800">
                 <flux:button type="submit" size="sm">{{ __('Search') }}</flux:button>
-                <flux:button size="sm" variant="ghost" :href="route('stock.export', ['warehouse' => $warehouseId])">{{ __('Export CSV') }}</flux:button>
+                <flux:button size="sm" variant="ghost" :href="route('legacy.stock.export', ['warehouse' => $warehouseId])">{{ __('Export CSV') }}</flux:button>
             </form>
         </div>
 
@@ -22,7 +22,7 @@
             <flux:callout variant="success" icon="check-circle">{{ session('status') }}</flux:callout>
         @endif
 
-        <form method="POST" action="{{ route('stock.adjust') }}" class="flex flex-wrap items-end gap-2 rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+        <form method="POST" action="{{ route('legacy.stock.adjust') }}" class="flex flex-wrap items-end gap-2 rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
             @csrf
             <label class="flex flex-col text-sm">{{ __('Product') }}
                 <select name="product_id" required class="rounded-md border border-zinc-300 px-2 py-1.5 dark:border-zinc-600 dark:bg-zinc-800">

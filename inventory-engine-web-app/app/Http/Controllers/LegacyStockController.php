@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class StockController extends Controller
+/**
+ * v0 stock screens, kept for the hazmat report and CSV export until those move to
+ * the Livewire pages. New stock writes go through App\Services\StockLedger.
+ */
+class LegacyStockController extends Controller
 {
     public function index(Request $request): View
     {
@@ -51,7 +55,7 @@ class StockController extends Controller
             ->where('bins.warehouse_id', $warehouseId)
             ->sum('stock_levels.quantity');
 
-        return view('stock.index', [
+        return view('legacy.stock.index', [
             'warehouses' => $warehouses,
             'warehouseId' => $warehouseId,
             'search' => $search,
@@ -107,7 +111,7 @@ class StockController extends Controller
         });
 
         return redirect()
-            ->route('stock.index', ['warehouse' => $bin->warehouse_id])
+            ->route('legacy.stock.index', ['warehouse' => $bin->warehouse_id])
             ->with('status', 'Stock adjusted.');
     }
 
@@ -130,7 +134,7 @@ class StockController extends Controller
                 DB::raw('sum(stock_levels.quantity) as quantity'),
             ]);
 
-        return view('stock.hazmat', ['rows' => $rows]);
+        return view('legacy.stock.hazmat', ['rows' => $rows]);
     }
 
     public function export(Request $request): StreamedResponse

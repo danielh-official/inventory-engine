@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\StockController;
+use App\Http\Controllers\LegacyStockController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
@@ -8,10 +8,12 @@ Route::view('/', 'welcome')->name('home');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
-    Route::get('stock', [StockController::class, 'index'])->name('stock.index');
-    Route::post('stock/adjust', [StockController::class, 'adjust'])->name('stock.adjust');
-    Route::get('stock/hazmat', [StockController::class, 'hazmat'])->name('stock.hazmat');
-    Route::get('stock/export', [StockController::class, 'export'])->name('stock.export');
+    Route::prefix('legacy/stock')->name('legacy.stock.')->controller(LegacyStockController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('adjust', 'adjust')->name('adjust');
+        Route::get('hazmat', 'hazmat')->name('hazmat');
+        Route::get('export', 'export')->name('export');
+    });
 });
 
 require __DIR__.'/settings.php';

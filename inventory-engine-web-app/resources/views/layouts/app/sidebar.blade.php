@@ -15,8 +15,8 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="archive-box" :href="route('stock.index')" :current="request()->routeIs('stock.*')" wire:navigate>
-                        {{ __('Stock') }}
+                    <flux:sidebar.item icon="archive-box" :href="route('legacy.stock.index')" :current="request()->routeIs('legacy.stock.*')" wire:navigate>
+                        {{ __('Stock (v0)') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
