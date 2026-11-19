@@ -8,6 +8,9 @@ Route::view('/', 'welcome')->name('home');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
+    Route::livewire('products', 'pages::products.index')->name('products.index');
+    Route::livewire('products/{product}', 'pages::products.show')->name('products.show');
+
     Route::prefix('legacy/stock')->name('legacy.stock.')->controller(LegacyStockController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('adjust', 'adjust')->name('adjust');

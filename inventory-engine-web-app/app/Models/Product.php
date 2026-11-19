@@ -52,6 +52,22 @@ class Product extends Model
     }
 
     /**
+     * @return HasMany<StockLevel, $this>
+     */
+    public function stockLevels(): HasMany
+    {
+        return $this->hasMany(StockLevel::class);
+    }
+
+    /**
+     * @return HasMany<StockMovement, $this>
+     */
+    public function stockMovements(): HasMany
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
+    /**
      * Convert a quantity in any of this product's units to base units.
      */
     public function toBaseUnits(int $quantity, UnitOfMeasure $unit): int
