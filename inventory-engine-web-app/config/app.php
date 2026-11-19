@@ -16,7 +16,8 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
 
     // Which process this is (web, worker, scheduler). Added to every log record.
-    'service' => env('APP_SERVICE', 'web'),
+    // Not APP_SERVICE: Sail uses that to pick the container it runs commands in.
+    'service' => env('SERVICE_NAME', 'web'),
 
     /*
     |--------------------------------------------------------------------------
